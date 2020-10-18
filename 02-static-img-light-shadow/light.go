@@ -43,7 +43,7 @@ func createCanvas(outFile string) error {
 
 	gcDrawRectangle(gc, image.Point{24, 14}, image.Point{26, 16}, lightColor)
 
-	gcDrawLine(gc, image.Point{31, 15}, image.Point{111, 15}, lightColor)
+	gcDrawLine(gc, image.Point{31, 15}, image.Point{125, 15}, lightColor)
 
 	gc.Close()
 	gc.FillStroke()
@@ -125,26 +125,4 @@ func renderASCIIGrayScale(file string) {
 	log.Printf("%v", img.Bounds().Min)
 	log.Printf("%v", img.Bounds().Max)
 	log.Printf("y:%d x:$%d", img.Bounds().Max.Y, img.Bounds().Max.X)
-}
-
-func draw2d() {
-	// Initialize the graphic context on an RGBA image
-	dest := image.NewRGBA(image.Rect(0, 0, 297, 210.0))
-	gc := draw2dimg.NewGraphicContext(dest)
-
-	// Set some properties
-	gc.SetFillColor(color.RGBA{0x44, 0xff, 0x44, 0xff})
-	gc.SetStrokeColor(color.RGBA{0x44, 0x44, 0x44, 0xff})
-	gc.SetLineWidth(5)
-
-	// Draw a closed shape
-	gc.BeginPath()    // Initialize a new path
-	gc.MoveTo(10, 10) // Move to a position to start the new path
-	gc.LineTo(100, 50)
-	gc.QuadCurveTo(100, 10, 10, 10)
-	gc.Close()
-	gc.FillStroke()
-
-	// Save to file
-	draw2dimg.SaveToPngFile("hello.png", dest)
 }

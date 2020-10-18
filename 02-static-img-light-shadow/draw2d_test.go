@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"image"
 	"image/color"
-	"log"
 	"testing"
 
 	"github.com/llgcode/draw2d/draw2dimg"
@@ -38,26 +36,4 @@ func assertPixel(t *testing.T, img image.Image, p image.Point, c color.Color) {
 	if c != img.At(p.X, p.Y) {
 		t.Errorf("exp: %t, got %t at %v", c, img.At(p.X, p.Y), p)
 	}
-}
-
-func debug(img image.Image) {
-	levels := []string{"░", "▒", "▓", "█"}
-
-	for y := img.Bounds().Min.Y; y < img.Bounds().Max.Y; y++ {
-		for x := img.Bounds().Min.X; x < img.Bounds().Max.X; x++ {
-			c := color.GrayModel.Convert(img.At(x, y)).(color.Gray)
-			level := c.Y / 51 // 51 * 5 = 255
-			// level := c.Y / 61
-			if level >= 5 {
-				level--
-			}
-			fmt.Print(levels[level])
-		}
-		fmt.Print("boo\n")
-	}
-	fmt.Print(img)
-	log.Printf("%v", img.Bounds())
-	log.Printf("%v", img.Bounds().Min)
-	log.Printf("%v", img.Bounds().Max)
-	log.Printf("y:%d x:$%d", img.Bounds().Max.Y, img.Bounds().Max.X)
 }
