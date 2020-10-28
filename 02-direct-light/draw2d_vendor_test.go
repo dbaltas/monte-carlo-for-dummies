@@ -34,6 +34,6 @@ func TestVendorDraw2d(t *testing.T) {
 
 func assertPixel(t *testing.T, img image.Image, p image.Point, c color.Color) {
 	if c != img.At(p.X, p.Y) {
-		t.Errorf("exp: %t, got %t at %v", c, img.At(p.X, p.Y), p)
+		t.Errorf("exp: %v, got %v at %v", c, img.At(p.X, p.Y), p)
 	}
 }
