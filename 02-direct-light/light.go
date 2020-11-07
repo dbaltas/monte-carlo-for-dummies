@@ -31,12 +31,25 @@ func createCanvas(outFile string) error {
 	}
 
 	gc := draw2dimg.NewGraphicContext(dest)
-	// draw light source external box
-	gcDrawRectangle(gc, image.Point{21, 11}, image.Point{29, 19}, FlashLightColor)
-	// draw light source internal box
-	gcDrawRectangle(gc, image.Point{24, 14}, image.Point{26, 16}, FullLightColor)
-	// draw light beam
-	gcDrawLine(gc, image.Point{31, 15}, image.Point{125, 15}, FullLightColor)
+	b1 := Beam{
+		source:    image.Point{25, 15},
+		angle:     0,
+		intensity: 100,
+	}
+	b2 := Beam{
+		source:    image.Point{110, 25},
+		angle:     -2.7,
+		intensity: 100,
+	}
+	b3 := Beam{
+		source:    image.Point{90, 5},
+		angle:     2.8,
+		intensity: 100,
+	}
+	// draw BeamSource
+	gcDrawBeamSource(gc, b1)
+	gcDrawBeamSource(gc, b2)
+	gcDrawBeamSource(gc, b3)
 	// draw wall
 	gcDrawRectangle(gc, image.Point{0, 0}, image.Point{125, 32}, NoLightColor)
 
@@ -57,7 +70,8 @@ func renderASCIIGrayScale(file string) {
 	}
 	defer canvasFile.Close()
 
-	// Consider using the general image.Decode as it can sniff and decode any registered image format.
+	// Consider using the general image.Decode as it can sniff and
+	// decode any registered image format.
 	img, err := png.Decode(canvasFile)
 	if err != nil {
 		log.Fatal(err)

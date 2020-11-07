@@ -8,8 +8,7 @@ On a 2D space, drop some light and check its shadow.
 ![canvas](docs/canvas.png)
 
 A rectangle 125x32.  
-A flashlight with round shape, red in the middle white outside on the left center part of the image,  
-is shooting red light towards the right center.
+Beam Sources shooting red light with various angles.
 
 Helper info about canvas, positioning and color pallette in this [doc](https://docs.google.com/spreadsheets/d/1BydYF5Aa_xKUDXgPKSL9cN4QbD8yq2vslvwRQBO_mws/edit?usp=sharing).
 
@@ -26,8 +25,17 @@ go get -u github.com/llgcode/draw2d
 
 ```bash
 # run
-go run light.go
+go run ./...
 open canvas.png
+# test
+go test ./...
 ```
 
 ## next steps
+
+- Light the wall based on light hitting in
+- Render obstacles that will prevent the wall from lighting
+
+Much later...
+
+- Monte Carlo to make it faster!
