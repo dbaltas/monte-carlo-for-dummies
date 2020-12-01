@@ -8,6 +8,20 @@ import (
 	"github.com/llgcode/draw2d/draw2dkit"
 )
 
+func gcDrawCanvas(gc *draw2dimg.GraphicContext, c Canvas) {
+	gcDrawRectangle(gc, c.Outline.Min, c.Outline.Max, NoLightColor)
+
+	for _, b := range c.Beams {
+		gcDrawBeamSource(gc, b)
+	}
+
+	for _, w := range c.Shapes {
+		gcDrawRectangle(gc, w.Min, w.Max, NoLightColor)
+	}
+	gc.Close()
+	gc.FillStroke()
+}
+
 func gcDrawBeamSource(gc *draw2dimg.GraphicContext, b Beam) {
 	p := b.source
 	gcDrawRectangle(gc, image.Point{p.X - 4, p.Y - 4}, image.Point{p.X + 4, p.Y + 4}, FlashLightColor)

@@ -12,14 +12,17 @@ import (
 )
 
 func main() {
-	createCanvas("canvas.png")
+	createRandomCanvas("random_canvas.png")
+	// createCanvas("canvas.png")
 
-	renderASCIIGrayScale("canvas.png")
+	// renderASCIIGrayScale("random_canvas.png")
 }
 
-func createCanvas(outFile string) error {
+func createRandomCanvas(outFile string) error {
+	c := RandomCanvas()
+	outline := c.Outline
 	// Initialize the graphic context on an RGBA image
-	dest := image.NewRGBA(image.Rect(0, 0, 125, 32))
+	dest := image.NewRGBA(outline)
 
 	for i := 0; i < len(dest.Pix); i++ {
 		if i%4 == 0 {
@@ -31,6 +34,13 @@ func createCanvas(outFile string) error {
 	}
 
 	gc := draw2dimg.NewGraphicContext(dest)
+	gcDrawCanvas(gc, c)
+	draw2dimg.SaveToPngFile(outFile, dest)
+
+	return nil
+}
+
+func createCanvas(outFile string) error {
 	b1 := Beam{
 		source:    image.Point{25, 15},
 		angle:     0,
@@ -46,17 +56,30 @@ func createCanvas(outFile string) error {
 		angle:     2.8,
 		intensity: 100,
 	}
-	// draw BeamSource
-	gcDrawBeamSource(gc, b1)
-	gcDrawBeamSource(gc, b2)
-	gcDrawBeamSource(gc, b3)
-	// draw wall
-	gcDrawRectangle(gc, image.Point{0, 0}, image.Point{125, 32}, NoLightColor)
 
-	gc.Close()
-	gc.FillStroke()
+	w1 := image.Rect(40, 10, 40, 25)
 
-	// Save to file
+	c := Canvas{
+		Outline: image.Rect(0, 0, 125, 32),
+		Beams:   []Beam{b1, b2, b3},
+		Shapes:  []image.Rectangle{w1},
+	}
+	outline := c.Outline
+	// Initialize the graphic context on an RGBA image
+	dest := image.NewRGBA(outline)
+
+	for i := 0; i < len(dest.Pix); i++ {
+		if i%4 == 0 {
+			dest.Pix[i] = CanvasColor.R
+			dest.Pix[i+1] = CanvasColor.G
+			dest.Pix[i+2] = CanvasColor.B
+			dest.Pix[i+3] = CanvasColor.A
+		}
+	}
+
+	gc := draw2dimg.NewGraphicContext(dest)
+
+	gcDrawCanvas(gc, c)
 	draw2dimg.SaveToPngFile(outFile, dest)
 
 	return nil

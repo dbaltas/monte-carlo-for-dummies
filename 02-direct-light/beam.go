@@ -31,6 +31,6 @@ func (b Beam) Targets(p image.Point) bool {
 
 // EndPoint for rendering purposes
 func (b Beam) EndPoint() image.Point {
-	distance := 1000.
+	distance := 10000.
 	return PointInDirection(b.source, b.angle, distance)
 }
