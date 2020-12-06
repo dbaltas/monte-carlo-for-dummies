@@ -24,13 +24,38 @@ var testBeamTargets = []struct {
 	{0.644 - 0.15, image.Point{4, 3}, false},      // point with angle 36.9
 }
 
-func TestBeamMain(t *testing.T) {
+func TestBeamTargetsPoint(t *testing.T) {
 	for _, e := range testBeamTargets {
-		b := Beam{image.Point{0, 0}, e.beamAngle, 33}
+		b := Beam{image.Point{0, 0}, e.beamAngle, 33, nil}
 		res := b.Targets(e.p)
 		if res != e.exp {
 			t.Logf("%v", Angle(b.source, e.p))
 			t.Errorf("Exp %v got %v On %v targeting %v", e.exp, res, b, e.p)
+		}
+	}
+}
+
+var testBeamEnd = []struct {
+	beamStart image.Point
+	walls     []image.Rectangle
+	exp       image.Point
+}{
+	{
+		image.Point{0, 25},
+		[]image.Rectangle{
+			image.Rect(40, 0, 40, 100),
+			image.Rect(20, 0, 20, 100),
+			image.Rect(60, 0, 60, 100),
+		},
+		image.Point{20, 25},
+	},
+}
+
+func TestBeamFirstWall(t *testing.T) {
+	for _, e := range testBeamEnd {
+		b := Beam{e.beamStart, 0, 33, nil}
+		if e.exp != b.Ends(e.walls) {
+			t.Errorf("Exp %v got %v", e.exp, b.Ends(e.walls))
 		}
 	}
 }

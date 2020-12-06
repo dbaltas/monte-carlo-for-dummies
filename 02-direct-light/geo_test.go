@@ -47,7 +47,8 @@ var testVerticalThroughCenter = []struct {
 	{image.Point{-5, 5}, image.Point{5, -5}, &image.Point{0, 0}},
 	{image.Point{-100, -10}, image.Point{200, 10}, &image.Point{49, 0}},
 	{image.Point{-100, -10}, image.Point{100, -10}, nil},
-	{image.Point{1, 1}, image.Point{2, 2}, &image.Point{0, 0}}, // line extension intersects
+	{image.Point{-1, -1}, image.Point{2, 2}, &image.Point{0, 0}},
+	{image.Point{1, 1}, image.Point{2, 2}, nil}, // line extension does not intersect
 }
 
 func TestLineIntersects(t *testing.T) {
@@ -108,14 +109,27 @@ func TestAngleToPoint(t *testing.T) {
 	// test distances
 	for _, e := range testAngleToPoint {
 		p := image.Point{0, 0}
-		// p2 := image.Point{
-		// 	X: int(distance*math.Cos(e.rad)) + p.X,
-		// 	Y: int(distance*math.Sin(e.rad)) + p.Y,
-		// }
 		p2 := PointInDirection(p, e.rad, distance)
 		if !cmpEqual(&e.p, &p2) {
 			t.Errorf("exp %v got %v for angle %v and distance %v",
 				e.p, p2, RadToDeg(e.rad), distance)
+		}
+	}
+}
+
+var testDistance = []struct {
+	point1 image.Point
+	point2 image.Point
+	exp    float64
+}{
+	{image.Point{0, 0}, image.Point{3, 4}, 5.},
+}
+
+func TestDistance(t *testing.T) {
+	for _, e := range testDistance {
+		if e.exp != Distance(e.point1, e.point2) {
+			t.Errorf("exp %v got %v for %v and %v",
+				e.exp, Distance(e.point1, e.point2), e.point1, e.point2)
 		}
 	}
 }

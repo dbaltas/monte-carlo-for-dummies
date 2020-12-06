@@ -15,23 +15,27 @@ type Canvas struct {
 
 // RandomCanvas render random beams and shapes
 func RandomCanvas() Canvas {
-	outline := image.Rect(0, 0, 2500, 640)
+	outline := image.Rect(0, 0, 1600, 900)
 	c := Canvas{
 		Outline: outline,
 	}
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for i := 0; i < 200; i++ {
+	for i := 0; i < 100; i++ {
 		b := Beam{
 			source:    image.Point{r.Intn(outline.Max.X), r.Intn(outline.Max.Y)},
 			angle:     float64(r.Intn(1000)) / 6.2830,
 			intensity: 100,
+			canvas:    &c,
 		}
 		c.Beams = append(c.Beams, b)
 	}
 
-	for i := 0; i < 5; i++ {
-		randX := r.Intn(outline.Max.X)
-		w := image.Rect(randX, r.Intn(outline.Max.Y), randX, r.Intn(outline.Max.Y))
+	for i := 0; i < 10; i++ {
+		randX1 := r.Intn(outline.Max.X)
+		randX2 := r.Intn(outline.Max.X)
+		randY1 := r.Intn(outline.Max.Y)
+		randY2 := r.Intn(outline.Max.Y)
+		w := image.Rect(randX1, randY1, randX2, randY2)
 		c.Shapes = append(c.Shapes, w)
 	}
 

@@ -7,6 +7,9 @@ import (
 // FullLightColor .
 var FullLightColor = color.RGBA{0xeb, 0x09, 0x09, 0xff}
 
+// WallColor .
+var WallColor = color.RGBA{0x09, 0xeb, 0xeb, 0xff}
+
 // CanvasColor .
 var CanvasColor = color.RGBA{0x09, 0x09, 0x09, 0xff}
 

@@ -16,7 +16,7 @@ func gcDrawCanvas(gc *draw2dimg.GraphicContext, c Canvas) {
 	}
 
 	for _, w := range c.Shapes {
-		gcDrawRectangle(gc, w.Min, w.Max, NoLightColor)
+		gcDrawShape(gc, w)
 	}
 	gc.Close()
 	gc.FillStroke()
@@ -32,7 +32,11 @@ func gcDrawBeamSource(gc *draw2dimg.GraphicContext, b Beam) {
 }
 
 func gcDrawBeam(gc *draw2dimg.GraphicContext, b Beam) {
-	gcDrawLine(gc, b.source, b.EndPoint(), FullLightColor)
+	gcDrawLine(gc, b.source, b.Ends(b.canvas.Shapes), FullLightColor)
+}
+
+func gcDrawShape(gc *draw2dimg.GraphicContext, w image.Rectangle) {
+	gcDrawLine(gc, w.Min, w.Max, WallColor)
 }
 
 func gcDrawLine(gc *draw2dimg.GraphicContext, start image.Point, end image.Point, c color.Color) {

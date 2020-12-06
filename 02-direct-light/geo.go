@@ -35,7 +35,7 @@ func (l Line) Intersection(line Line) *image.Point {
 	}
 
 	if float64(U1)/float64(den) < 0 || float64(U1)/float64(den) > 1 || float64(U2)/float64(den) < 0 || float64(U2)/float64(den) > 1 {
-		// return nil
+		return nil
 	}
 
 	// return U1 / den
@@ -53,6 +53,13 @@ func (l *Line) Interpolate(percent float64) *image.Point {
 		l.a.X + x,
 		l.a.Y + y,
 	}
+}
+
+// Distance between two points
+func Distance(p1, p2 image.Point) float64 {
+	x := float64((p1.X - p2.X))
+	y := float64((p1.Y - p2.Y))
+	return math.Sqrt(x*x + y*y)
 }
 
 // DegToRad Angle Measurment Conversion

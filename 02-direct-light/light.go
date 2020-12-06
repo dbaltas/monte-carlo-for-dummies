@@ -15,7 +15,7 @@ func main() {
 	createRandomCanvas("random_canvas.png")
 	// createCanvas("canvas.png")
 
-	// renderASCIIGrayScale("random_canvas.png")
+	// renderASCIIGrayScale("canvas.png")
 }
 
 func createRandomCanvas(outFile string) error {
@@ -41,29 +41,35 @@ func createRandomCanvas(outFile string) error {
 }
 
 func createCanvas(outFile string) error {
+	c := Canvas{
+		Outline: image.Rect(0, 0, 125, 32),
+	}
+
 	b1 := Beam{
 		source:    image.Point{25, 15},
 		angle:     0,
 		intensity: 100,
+		canvas:    &c,
 	}
 	b2 := Beam{
 		source:    image.Point{110, 25},
 		angle:     -2.7,
 		intensity: 100,
+		canvas:    &c,
 	}
 	b3 := Beam{
 		source:    image.Point{90, 5},
 		angle:     2.8,
 		intensity: 100,
+		canvas:    &c,
 	}
 
 	w1 := image.Rect(40, 10, 40, 25)
+	w2 := image.Rect(60, 10, 60, 25)
 
-	c := Canvas{
-		Outline: image.Rect(0, 0, 125, 32),
-		Beams:   []Beam{b1, b2, b3},
-		Shapes:  []image.Rectangle{w1},
-	}
+	c.Beams = []Beam{b1, b2, b3}
+	c.Shapes = []image.Rectangle{w1, w2}
+
 	outline := c.Outline
 	// Initialize the graphic context on an RGBA image
 	dest := image.NewRGBA(outline)
